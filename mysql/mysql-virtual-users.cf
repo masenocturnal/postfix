@@ -1,0 +1,11 @@
+#
+# mysql config file for local(8) aliases(5) lookups
+#
+
+# The user name and password to log into the mysql server.
+user     = postfix
+password = test
+dbname   = mailtest
+hosts    = prowl
+query    = SELECT home_dir as maildir FROM virtual_users as vu, virtual_domains as vd WHERE vu.username = '%u' AND vd.domain_name = '%d' AND vu.domain_id = vd.id AND vd.active='y' AND vu.active='y';
+

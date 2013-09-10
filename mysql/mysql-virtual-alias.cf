@@ -1,0 +1,6 @@
+user     = postfix
+password = test
+dbname   = mailtest
+hosts    = prowl
+query    = SELECT va.destination FROM virtual_alias va, virtual_domains vd WHERE va.alias = '%u' and vd.domain_name='%d' and vd.id = va.domain_id;
+
