@@ -20,6 +20,12 @@ readme_directory = no
 # Turn on debugging for localhost
 debug_peer_list = 127.0.0.1
 
+# Use dovecot for SMTP authentication
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+
 # TLS parameters
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
@@ -30,7 +36,6 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 myhostname = scrapper
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
@@ -65,12 +70,14 @@ virtual_mailbox_base = /
 
 # using the mail user and mail group for postfix 
 # this is only used by virtual
-virtual_uid_maps = static:8001
-virtual_gid_maps = static:8001
+#virtual_uid_maps = static:8001
+#virtual_gid_maps = static:8001
 
 # Use dovecot to handle delivery to the virtual domains
 #virtual_transport = maildrop
 #virtual_transport = dovecot
+# This uses LMTP 
+virtual_transport = lmtp:127.0.0.1:467
 
 ## only deliver 1 recipient at a time , I think this is only for SpamAssassin##
 # dovecot_destination_recipient_limit=1
