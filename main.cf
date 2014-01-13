@@ -77,10 +77,11 @@ virtual_mailbox_base = /
 #virtual_transport = maildrop
 #virtual_transport = dovecot
 # This uses LMTP 
-virtual_transport = lmtp:127.0.0.1:467
+virtual_transport = lmtp:127.0.0.1:2424
 
 ## only deliver 1 recipient at a time , I think this is only for SpamAssassin##
 # dovecot_destination_recipient_limit=1
 
 
 # smtp-amavis_destination_concurrency_limit = 20
+inet_protocols = all
