@@ -129,4 +129,10 @@ scalemail-backend unix	-	n	n	-	2	pipe
 mailman   unix  -       n       n       -       -       pipe
   flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
   ${nexthop} ${user}
-
+# ==========================================================================
+# service type  private unpriv  chroot  wakeup  maxproc command + args
+#               (yes)   (yes)   (yes)   (never) (100)
+# ==========================================================================
+# Added using postfix-add-policy script:
+policy-spf unix    -       n       n       -       0     spawn
+      user=nobody argv=/usr/bin/policyd-spf
