@@ -22,7 +22,8 @@ debug_peer_list = 127.0.0.1
 
 # Use dovecot for SMTP authentication
 smtpd_sasl_type = dovecot
-smtpd_sasl_path = private/auth
+#smtpd_sasl_path = private/auth
+smtpd_sasl_path = inet:localhost:9000
 smtpd_sasl_auth_enable = yes
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 
