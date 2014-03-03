@@ -27,12 +27,26 @@ smtpd_sasl_path = inet:localhost:9000
 smtpd_sasl_auth_enable = yes
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 
+smtpd_sender_login_maps=mysql:/etc/postfix/mysql/mysql-virtual-users.cf 
+
 # TLS parameters
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 smtpd_use_tls=yes
 smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
+
+# http://www.unixwiz.net/techtips/postfix-HELO.html
+# @todo add in later
+#smtpd_helo_restrictions =
+#    permit_mynetworks,
+#    reject_non_fqdn_helo_hostname,
+#    reject_invalid_helo_hostname,
+#    check_helo_access hash:$config_directory/helo_checks,
+#    permit
+
+
 
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
@@ -51,6 +65,8 @@ inet_interfaces = all
 
 ## Set Up Content Filtering ## 
 #content_filter = smtp-amavis:[127.0.0.1]:10024
+
+
 
 
 ## Handle Virtual Domains  ##
@@ -86,3 +102,6 @@ virtual_transport = lmtp:127.0.0.1:2424
 
 # smtp-amavis_destination_concurrency_limit = 20
 inet_protocols = all
+content_filter = smtp-amavis:[localhost]:10024
+policy-spf_time_limit = 3600s
+smtpd_recipient_restrictions = , check_policy_service unix:private/policy-spf, check_policy_service unix:private/policy-spf
