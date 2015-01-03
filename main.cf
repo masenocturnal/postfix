@@ -63,21 +63,14 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 
-## Set Up Content Filtering ## 
-#content_filter = smtp-amavis:[127.0.0.1]:10024
-
-
-
-
 ## Handle Virtual Domains  ##
 virtual_mailbox_domains = mysql:/etc/postfix/mysql/mysql-virtual-domains.cf
 ## Handle Virtual Aliases ## 
 virtual_alias_maps      = mysql:/etc/postfix/mysql/mysql-virtual-alias.cf 
 
-# @todo the smae for virtual-alias-domains
+# @todo the same for virtual-alias-domains
 
 ## Handle Virtual Users ##
-
 virtual_mailbox_maps = mysql:/etc/postfix/mysql/mysql-virtual-users.cf
 
 # this only works with virtual but it's a good safty net 
@@ -93,8 +86,8 @@ virtual_mailbox_base = /
 # Use dovecot to handle delivery to the virtual domains
 #virtual_transport = maildrop
 #virtual_transport = dovecot
-# This uses LMTP 
-virtual_transport = lmtp:127.0.0.1:2424
+# Transport via LMTP to dovecot. We use LMTP so that postfix is responsible for queuing
+virtual_transport = lmtp:127.0.0.1:2525
 
 ## only deliver 1 recipient at a time , I think this is only for SpamAssassin##
 # dovecot_destination_recipient_limit=1
@@ -102,6 +95,6 @@ virtual_transport = lmtp:127.0.0.1:2424
 
 # smtp-amavis_destination_concurrency_limit = 20
 inet_protocols = all
-content_filter = smtp-amavis:[localhost]:10024
+content_filter = lmtp-amavis:[localhost]:10024
 policy-spf_time_limit = 3600s
-smtpd_recipient_restrictions = , check_policy_service unix:private/policy-spf, check_policy_service unix:private/policy-spf
+smtpd_recipient_restrictions = check_policy_service unix:private/policy-spf
