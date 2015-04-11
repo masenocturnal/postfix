@@ -6,5 +6,5 @@
 user     = postfix
 password = test
 dbname   = mailtest
-hosts    = localhost
+hosts    = 127.0.0.1
 query    = SELECT domain_name as 'domain' FROM virtual_domains WHERE domain_name='%s'

@@ -6,6 +6,6 @@
 user     = postfix
 password = test
 dbname   = mailtest
-hosts    = localhost
+hosts    = 127.0.0.1
 query    = SELECT home_dir as maildir FROM virtual_users as vu, virtual_domains as vd WHERE vu.username = '%u' AND vd.domain_name = '%d' AND vu.domain_id = vd.id AND vd.active='y' AND vu.active='y';
 
