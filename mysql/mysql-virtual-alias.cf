@@ -2,5 +2,5 @@ user     = postfix
 password = test
 dbname   = mailtest
 hosts    = 127.0.0.1
-query    = SELECT va.destination FROM virtual_alias va, virtual_domains vd WHERE va.alias = '%u' and vd.domain_name='%d' and vd.id = va.domain_id;
+query    = SELECT va.destination FROM virtual_alias va INNER JOIN virtual_domains vd ON va.domain_id = vd.id WHERE  va.alias_name = '%u' and vd.domain_name='%d';
 
