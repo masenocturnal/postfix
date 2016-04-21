@@ -19,6 +19,7 @@ readme_directory = no
 
 # Turn on debugging for localhost
 debug_peer_list = 127.0.0.1
+debug_peer_level = 2
 
 # Use dovecot for SMTP authentication
 smtpd_sasl_type = dovecot
@@ -27,7 +28,8 @@ smtpd_sasl_path = inet:localhost:9000
 smtpd_sasl_auth_enable = yes
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 
-smtpd_sender_login_maps=mysql:/etc/postfix/mysql/mysql-virtual-users.cf 
+#smtpd_sender_login_maps=mysql:/etc/postfix/mysql/mysql-virtual-users.cf 
+smtpd_sender_login_maps=hash:/etc/postfix/mysql/mysql-virtual-smtp-sender-map
 
 # TLS parameters
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
@@ -97,4 +99,5 @@ virtual_transport = lmtp:127.0.0.1:2525
 inet_protocols = all
 content_filter = lmtp-amavis:[localhost]:10024
 policy-spf_time_limit = 3600s
-smtpd_recipient_restrictions = check_policy_service unix:private/policy-spf
+# @todo enable
+#smtpd_recipient_restrictions = check_policy_service unix:private/policy-spf
