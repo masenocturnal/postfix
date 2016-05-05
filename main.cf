@@ -101,3 +101,4 @@ content_filter = lmtp-amavis:[localhost]:10024
 policy-spf_time_limit = 3600s
 # @todo enable
 #smtpd_recipient_restrictions = check_policy_service unix:private/policy-spf
+compatibility_level = 2
