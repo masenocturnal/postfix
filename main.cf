@@ -5,6 +5,7 @@
 # line of that file to be used as the name.  The Debian default
 # is /etc/mailname.
 #myorigin = /etc/mailname
+myorigin = "container1"
 
 smtpd_banner = $myhostname ESMTP $mail_name
 biff = no
