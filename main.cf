@@ -25,7 +25,7 @@ debug_peer_level = 2
 # Use dovecot for SMTP authentication
 smtpd_sasl_type = dovecot
 #smtpd_sasl_path = private/auth
-smtpd_sasl_path = inet:localhost:9000
+smtpd_sasl_path = inet:dovecot:9000
 smtpd_sasl_auth_enable = yes
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 
@@ -54,11 +54,10 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-myhostname = scrapper.nocturnal.net.au
+myhostname =  dovecot
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-myorigin = /etc/mailname
-mydestination = scrapper.nocturnal.net.au, scrapper, localhost.localdomain, localhost
+mydestination = localhost.localdomain, localhost
 relayhost = 
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 # handle this in dovecot deliver 
@@ -89,8 +88,9 @@ virtual_mailbox_base = /
 # Use dovecot to handle delivery to the virtual domains
 #virtual_transport = maildrop
 #virtual_transport = dovecot
+
 # Transport via LMTP to dovecot. We use LMTP so that postfix is responsible for queuing
-virtual_transport = lmtp:127.0.0.1:2525
+virtual_transport = lmtp:dovecot:2525
 
 ## only deliver 1 recipient at a time , I think this is only for SpamAssassin##
 # dovecot_destination_recipient_limit=1
@@ -98,7 +98,8 @@ virtual_transport = lmtp:127.0.0.1:2525
 
 # smtp-amavis_destination_concurrency_limit = 20
 inet_protocols = all
-content_filter = lmtp-amavis:[localhost]:10024
+# not using amavis anymore
+#content_filter = lmtp-amavis:[localhost]:10024
 policy-spf_time_limit = 3600s
 # @todo enable
 #smtpd_recipient_restrictions = check_policy_service unix:private/policy-spf
