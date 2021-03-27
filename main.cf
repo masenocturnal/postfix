@@ -95,6 +95,14 @@ virtual_transport = lmtp:dovecot:2525
 ## only deliver 1 recipient at a time , I think this is only for SpamAssassin##
 # dovecot_destination_recipient_limit=1
 
+#smtpd_milters = unix:/var/lib/rspamd/milter.sock
+# or for TCP socket
+smtpd_milters = inet:rspamd:11332
+milter_protocol = 6
+milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}
+# skip mail without checks if something goes wrong
+milter_default_action = accept
+
 
 # smtp-amavis_destination_concurrency_limit = 20
 inet_protocols = all
